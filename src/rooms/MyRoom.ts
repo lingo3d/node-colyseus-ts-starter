@@ -1,20 +1,23 @@
 import { Room, Client } from "colyseus"
-import { MyRoomState } from "./schema/MyRoomState.js"
+import { RoomSchema } from "./schema/RoomSchema.js"
+import { PlayerSchema } from "./schema/PlayerSchema.js"
 
-export class MyRoom extends Room<MyRoomState> {
-  public onCreate (options: any) {
-    this.setState(new MyRoomState())
-
-    this.onMessage("type", (client, message) => {
-    })
+export class MyRoom extends Room<RoomSchema> {
+  public onCreate(options: any) {
+    this.setState(new RoomSchema())
   }
 
-  public onJoin (client: Client, options: any) {
+  public onJoin(client: Client, options: any) {
     console.log(client.sessionId, "joined!")
+
+    const player = new PlayerSchema()
+    this.state.players.set(client.sessionId, player)
   }
 
-  public onLeave (client: Client, consented: boolean) {
+  public onLeave(client: Client, consented: boolean) {
     console.log(client.sessionId, "left!")
+
+    this.state.players.delete(client.sessionId)
   }
 
   public onDispose() {
