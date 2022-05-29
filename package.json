@@ -1,26 +1,25 @@
 {
-  "name": "node-typescript-boilerplate",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "server",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "npm run build && npm run start",
+    "start": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "npm run clean && tsc && node node_modules/copyfiles/copyfiles package.json ./lib",
+    "clean": "node node_modules/rimraf/bin lib"
+  },
   "devDependencies": {
-    "@types/node": "17",
+    "copyfiles": "2",
     "rimraf": "3",
-    "tslib": "2",
+    "ts-node": "*",
+    "ts-node-dev": "*",
+    "@types/express": "4",
     "typescript": "*"
   },
-  "scripts": {
-    "start": "node build/src/main.js",
-    "dev": "tsc -p tsconfig.json && node build/src/main.js",
-    "clean": "rimraf coverage build tmp",
-    "build": "tsc -p tsconfig.json",
-    "build:watch": "tsc -w -p tsconfig.json",
-    "build:release": "npm run clean && tsc -p tsconfig.release.json"
-  },
   "dependencies": {
-    "@colyseus/arena": "^0.14.24",
-    "@colyseus/monitor": "^0.14.22",
-    "@colyseus/schema": "^1.0.34",
-    "colyseus": "^0.14.23"
+    "@colyseus/arena": "^0.14.22",
+    "@colyseus/monitor": "^0.14.20",
+    "colyseus": "^0.14.20"
   }
 }
